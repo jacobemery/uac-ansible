@@ -25,6 +25,11 @@ cd uac-ansible
 ## 2. Copy over the uac tool
 * Copy the uac tool's .tar.gz file in the `files/uac/<uac-version>` folder corresponding to your uac tool's version.
 * i.e `files/uac/2.9.1/uac-2.9.1.tar.gz`
+* Set the `uac_version` variable in group_vars/all.yaml to the corresponding version of the uac tool, i.e:
+```
+---
+uac_version: 2.9.1
+```
 
 ## 3. Set target servers in inventory
 * Open inventory.yaml in a text editor or IDE (VS Code with Ansible extension recommended)
