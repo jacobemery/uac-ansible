@@ -3,3 +3,5 @@
 files/results/*
 !files/results/.gitkeep
 files/uac/*
+host_vars/*
+!host_vars/localhost
