@@ -1,0 +1,9 @@
+---
+all:
+  hosts:
+    localhost:
+  children:
+    uac_target:
+      hosts:
+        1.1.1.1:
+        1.1.1.2:

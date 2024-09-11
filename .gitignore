@@ -1,0 +1,4 @@
+.vscode
+.password.txt
+files/results/*
+!files/results/.gitkeep
