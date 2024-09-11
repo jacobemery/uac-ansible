@@ -6,24 +6,28 @@
   tasks:
 
     - name: Make landing directories /uac/tmp
+      tags: landing_dir
       ansible.builtin.file:
         path: /uac/tmp
         state: directory
         mode: '0755'
 
     - name: Copy over uac tool from uac folder of version uac_version to target and place it at /uac
+      tags: copy
       ansible.builtin.copy:
         src: "uac/{{ uac_version }}/uac-{{ uac_version }}.tar.gz"
         dest: /uac/
         mode: '0755'
 
     - name: Unarchive uac tar file.
+      tags: tar
       ansible.builtin.unarchive:
         src: /uac/uac-{{ uac_version }}.tar.gz
         dest: /uac/
         remote_src: true
 
     - name: Run uac command-line tool, this may take a while.
+      tags: uac
       ansible.builtin.command:
         cmd: ./uac -p full /uac/tmp
         creates: /uac/tmp/uac-*.tar.gz
@@ -33,7 +37,7 @@
       register: uac_results
 
     - name: Create results landing directory.
-      tags: test
+      tags: fetch, results_dir
       become: false
       ansible.builtin.file:
         state: directory
@@ -43,20 +47,27 @@
       delegate_to: localhost
 
     - name: Recursively find /uac/tmp files for next step.
-      tags: test
+      tags: fetch, find
       ansible.builtin.find:
         paths: /uac/tmp
         recurse: true
       register: uac_results
 
     - name: Copy resulting .log and .tar.gz files from /uac/tmp and place them in results folder with timestamp.
-      tags: test
+      tags: fetch
       ansible.builtin.fetch:
         src: "{{ item.path }}"
         dest: "{{ results_landing_dir.path }}/{{ item.path.split('/')[-1] }}"
         flat: true
       loop: "{{ uac_results.files }}"
 
-    - name: List next step.
+- name: Print out next steps to terminal.
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: List next steps.
+      tags: next_steps
       ansible.builtin.debug:
-        msg: "The UAC tool's results are ready in the files/results folder. They must be copied over to the appropriate Box folder for the CSIRT team to inspect."
+        msg: |
+          The UAC tool's results are ready in the files/results folder. They must be copied over to the appropriate Box folder for the CSIRT team to inspect.
