@@ -2,3 +2,4 @@
 .password.txt
 files/results/*
 !files/results/.gitkeep
+files/uac/*
