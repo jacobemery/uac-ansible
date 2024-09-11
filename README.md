@@ -16,7 +16,7 @@
 ## 1. Git clone this repository
 * From a terminal (recommend using the integrated terminal in VS Code with the Ansible extension installed), clone the repository in a folder you'd like to store the project in:
 ```
-git clone <repo address>
+git clone git@github.com:jacobemery/uac-ansible.git
 ```
 * Change into the cloned repository:
 ```
